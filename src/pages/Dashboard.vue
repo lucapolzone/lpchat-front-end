@@ -10,7 +10,6 @@
     
     setup() {
       const conversations = ref([]);
-      const users = ref([]);
 
       // Funzione per caricare le conversazioni
       const loadConversations = async () => {
@@ -22,25 +21,14 @@
         }
       };
 
-      // Funzione per caricare gli utenti
-      const loadUsers = async () => {
-        try {
-          const response = await axios.get('http://127.0.0.1:8000/api/users');
-          users.value = response.data;
-        } catch (error) {
-          console.error("Errore nel caricamento degli utenti:", error);
-        }
-      };
 
       // Carica le conversazioni e gli utenti al montaggio del componente
       onMounted(() => {
         loadConversations();
-        loadUsers();
       });
 
       return {
         conversations,
-        users,
       };
     },
   };
@@ -55,8 +43,11 @@
     <div v-if="conversations.length > 0" id="dashboard-container">
       <h2>Utenti</h2>
       <ul>
-        <li v-for="user in users">
-          {{ user.username }} ({{ user.email }})
+        <li v-for="conversation in conversations">
+          <p v-for="user in conversation.users">
+            {{ user.username }}
+            <span style="color: blue;"><small>Manda un messaggio</small></span>
+          </p>
         </li>
       </ul>
 
@@ -64,9 +55,15 @@
       <ul>
         <li v-for="conversation in conversations" :key="conversation.id">
           <div class="card">
-            <p v-for="user in users"> {{ user.username }} ({{ user.email }}) </p>
+            <h3>Conversazione {{ conversation.id }}</h3>
+            <h4>Utenti:</h4>
+            <ul>
+              <li v-for="user in conversation.users" :key="user.id">
+                {{ user.username }} ({{ user.email }})
+              </li>
+            </ul>
             <router-link :to="'/chat-room/' + conversation.id">
-              Conversazione {{ conversation.id }}
+              Vai alla chat
             </router-link>
           </div>
         </li>
