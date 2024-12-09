@@ -4,6 +4,15 @@
 Pensata come un “Minimum Viable Product”, è una web app di messaggistica in tempo reale con form di login, una dashboard dove vedere gli utenti registati e dove è possibile aprire una chat-room con loro. Nella dashboard è anche possibile vedere tramite notifica se ci sono messaggi ricevuti non ancora letti.
 
 
+## Indice
+
+- [Features](#features)
+- [Back-end](#back-end)
+- [Front-end](#front-end)
+- [Stato attuale del Front-end](#stato-attuale-del-front-end)
+- [Configurazione e inizializzazione](#configurazione-e-inizializzazione)
+
+
 ## Stack del progetto
 ![Laravel](./img_readme/laravel.svg)
 ![Vite](./img_readme/pusher.svg)
