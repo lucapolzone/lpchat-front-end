@@ -93,7 +93,6 @@ In generale, va terminata la configurazione di:
 > <br /><br /> 
 
 <br />
-<br />
 
 
 1. **Clona la repository e naviga nella cartella del progetto:**
