@@ -88,6 +88,13 @@ In generale, va terminata la configurazione di:
 # Configurazione e inizializzazione
 <br />
 
+> <br /> 
+> Devi prima aver avviato il progetto <b>lpchat-back-end</b> per le chiamate API
+> <br /><br /> 
+
+<br />
+<br />
+
 
 1. **Clona la repository e naviga nella cartella del progetto:**
 
