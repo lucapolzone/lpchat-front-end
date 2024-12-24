@@ -37,8 +37,10 @@
       const sendMessage = async () => {
         if (newMessage.value.trim()) {
           try {
-            await axios.post(`http://127.0.0.1:8000/api/messages/${conversationId}`, {
+            await axios.post('http://127.0.0.1:8000/api/messages', {
+              conversation_id: conversationId,
               message_content: newMessage.value,
+              user_ids: [authStore.user.id], // Aggiunge l'ID dell'utente che invia il messaggio
             }, {
               headers: {
                 Authorization: `Bearer ${authStore.token}`,
@@ -67,7 +69,7 @@
         
         // Ricezione dei messaggi inviati in tempo reale
         pusherChannel.bind('message.sent', (data) => {
-          messages.value.push(data.message); // Aggiungi il nuovo messaggio
+          messages.value.push(data.message); // Aggiunge il nuovo messaggio
         });
       });
 
