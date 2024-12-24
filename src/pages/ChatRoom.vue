@@ -2,6 +2,7 @@
   import { useRoute } from 'vue-router';
   import { ref, onMounted, onUnmounted } from 'vue';
   import { useMessageStore } from '../store/messageStore';
+  import { useAuthStore } from '../store/auth';
   import axios from 'axios';
   import Pusher from 'pusher-js';
 
@@ -10,6 +11,8 @@
       const route = useRoute();
       const conversationId = route.params.conversationId; // Ottiene l'id della conversazione dalla route
       const messageStore = useMessageStore();
+      const authStore = useAuthStore();
+
       
       const messages = ref([]); // Lista dei messaggi per la conversazione
       const users = ref([]); // Lista utenti
@@ -19,8 +22,11 @@
       // Funzione per caricare i messaggi e gli utenti
       const loadMessages = async () => {
         try {
-          const response = await axios.get(`http://127.0.0.1:8000/api/messages/${conversationId}`);
-          console.log(response.data); // Controlla la risposta nella console
+          const response = await axios.get(`http://127.0.0.1:8000/api/messages/${conversationId}`, {
+            headers: {
+              Authorization: `Bearer ${authStore.token}`,
+            },
+          });
           messages.value = response.data; // I messaggi
         } catch (error) {
           console.error('Errore nel caricare i messaggi:', error);
@@ -33,6 +39,10 @@
           try {
             await axios.post(`http://127.0.0.1:8000/api/messages/${conversationId}`, {
               message_content: newMessage.value,
+            }, {
+              headers: {
+                Authorization: `Bearer ${authStore.token}`,
+              },
             });
             messageStore.addMessage(newMessage.value); // Aggiunge il messaggio allo store
             newMessage.value = ''; // Svuota l'input
