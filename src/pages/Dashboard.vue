@@ -2,10 +2,12 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useAuthStore } from '../store/auth';
+import { useRouter } from 'vue-router';
 
 export default {
   setup() {
     const authStore = useAuthStore();
+    const router = useRouter();
     const conversations = ref([]);
     const users = ref([]);
 
@@ -35,6 +37,21 @@ export default {
       }
     };
 
+    const handleLogout = async () => {
+      try {
+        await axios.post('http://127.0.0.1:8000/api/logout', {}, {
+          headers: {
+            Authorization: `Bearer ${authStore.token}`,
+          },
+        });
+        authStore.setUser(null);
+        authStore.setToken(null);
+        router.push('/login');
+      } catch (error) {
+        console.error('Errore nel logout:', error);
+      }
+    };
+
     onMounted(() => {
       loadConversations();
       loadUsers();
@@ -43,6 +60,7 @@ export default {
     return {
       conversations,
       users,
+      handleLogout,
     };
   },
 };
@@ -51,6 +69,9 @@ export default {
 <template>
   <div>
     <h1>Dashboard</h1>
+
+    <button @click="handleLogout">Logout</button>
+
     <div v-if="users.length > 0">
       <h2>Utenti</h2>
       <ul>
