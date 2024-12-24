@@ -14,11 +14,7 @@
 
       const handleLogin = async () => {
         try {
-          // Simula una chiamata API di autenticazione
           await authStore.login({ email: email.value, password: password.value });
-          if (rememberMe.value) {
-            authStore.persistUser(); // Metodo opzionale per memorizzare l'utente
-          }
           router.push('/dashboard'); // Reindirizza alla dashboard
         } catch (error) {
           errorMessage.value = 'Credenziali non valide. Riprova.';
