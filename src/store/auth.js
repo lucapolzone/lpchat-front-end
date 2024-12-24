@@ -7,14 +7,21 @@ export const useAuthStore = defineStore('auth', {
     token: null, // Token autenticazione
   }),
   actions: {
-    setUser() {
-      
+    setUser(user) {
+      this.user = user;
     },
-    setToken() {
-
+    setToken(token) {
+      this.token = token;
     },
-
-
+    async login(credentials) {
+      try {
+        const response = await axios.post('http://127.0.0.1:8000/api/login', credentials);
+        this.setUser(response.data.user);
+        this.setToken(response.data.token);
+      } catch (error) {
+        throw new Error('Login fallito');
+      }
+    },
   },
   persist: true, // richiama pinia-plugin-persistedstate
 });
